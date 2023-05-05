@@ -15,8 +15,8 @@ class AlbumResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'albumId' => $this->albumId,
-            'photographerId ' => $this->photographerId,
+            'id' => $this->id,
+            'userId ' => $this->userId,
             'title' => $this->title,
             'description' => $this->description,
             'featured' => $this->featured,

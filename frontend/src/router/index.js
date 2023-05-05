@@ -44,4 +44,17 @@ const router = createRouter({
     routes
 })
 
+// router.beforeEach((to, from, next) => {
+//     const userData = window.localStorage.getItem('userData');
+//     // if (userData == null) {
+//     //     next({
+//     //         name: "Login"
+//     //      });
+//     //     console.log(typeof userData, userData)
+//     //     return;
+//     // }
+//     // next();
+//     //return;
+// });
+
 export default router

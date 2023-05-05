@@ -23,9 +23,4 @@ class Album extends Model
         'created_at',
         'updated_at',
     ];
-
-    public function albums()
-    {
-        return $this->hasMany(Album::class);
-    }
 }

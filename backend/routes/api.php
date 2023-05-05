@@ -13,27 +13,22 @@ use App\Http\Controllers\API\PhotographerController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
 
-Route::group(['prefix' => 'v1'], function(){
-    Route::apiResource('photographer', PhotographerController::class);
-});
-
 // ========== JWT Auth =========
 Route::group([
-    //'middleware' => 'api',
+    'middleware' => 'api',
     'namespace' => 'App\Http\Controllers\API',
     'prefix' => 'auth'
-
 ], function () {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('register','AuthController@register');
     Route::post('resetpassword', 'PasswordResetController@passwordReset');
     Route::post('changePassword', 'PasswordResetController@resetConfirm');
-    Route::post('payload','AuthController@payload');
+    Route::get('getUser','AuthController@userData');
+    Route::get('getalbums','AlbumController@getAlbums');
     Route::get('sendtestemail','MailController@senMail');
 });

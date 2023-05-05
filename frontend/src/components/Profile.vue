@@ -1,107 +1,40 @@
 <template>
+  <div class="header">
+    <div class="sign-out">
+      <button class="logout-btn" @click="logout">Sign Out</button>
+    </div>
+  </div>
   <div class="wrapper">
     <div class="profile-div">
       <div class="profile-pic">
         <img src="@/assets/profile.jpeg" alt="Profile picture">
       </div>
       <div class="profile-details">
-        <h1 class="profile-title text-grey">Nandhaka Pieris</h1>
+        <h1 class="profile-title text-grey">{{ user ? user.name : '' }}</h1>
         <p class="profile-bio text-grey">Bio</p>
-        <h2 class="profile-bio-desc text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor
-          incididunt
-          ut labore et dolore magna aliqua.</h2>
+        <h2 class="profile-bio-desc text-grey">{{ user ? user.bio : '' }}</h2>
       </div>
       <div class="contact-details">
         <p class="text-grey contact-title">Phone</p>
-        <p class="text-pink c-detail">123-456-7890</p>
+        <p class="text-pink c-detail">{{ user ? user.phone : '' }}</p>
         <p class="text-grey contact-title">Email</p>
-        <p class="text-pink c-detail">john.doe@example.com</p>
+        <p class="text-pink c-detail">{{ user ? user.email : '' }}</p>
       </div>
     </div>
     <div class="album-div">
-      <div class="card">
+      <div class="card" v-for="(album, index) in albumData" :key="index">
         <div class="card-banner">
-          <img class="banner-img" src='https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xna5h3bfbgmyrb6py1o7.jpg'
-            alt=''>
+          <img class="banner-img" v-bind:src="album.album_image" alt=''>
         </div>
         <div>
-          <p class="category-tag">Nandhaka Pieris</p>
+          <p class="category-tag">{{ album.title }}</p>
         </div>
         <div class="card-body">
-          <h2 class="blog-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua.</h2>
+          <h2 class="blog-title">{{ album.description }}</h2>
           <div class="album-details">
             <img class="feature-content" src="@/assets/fillheart.png" />
-            <p class="album-date">2023/09/23</p>
+            <p class="album-date">{{ album.album_date }}</p>
           </div>
-          <!-- <p class="blog-description">My thoughts on the future of front end web development</p>
-
-          <div class="card-profile">
-            <img class="profile-img"
-              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpYJQKSoM7S75P_KMRtQHqAAIPh133CSxByw&usqp=CAU'
-              alt=''>
-            <div class="card-profile-info">
-              <h3 class="profile-name">Eleanor Pea</h3>
-              <p class="profile-followers">5.2k followers</p>
-            </div>
-          </div> -->
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-banner">
-          <img class="banner-img" src='https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xna5h3bfbgmyrb6py1o7.jpg'
-            alt=''>
-        </div>
-        <div>
-          <p class="category-tag">Nandhaka Pieris</p>
-        </div>
-        <div class="card-body">
-          <h2 class="blog-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua.</h2>
-          <div class="album-details">
-            <img class="feature-content" src="@/assets/fillheart.png" />
-            <p class="album-date">2023/09/23</p>
-          </div>
-          <!-- <p class="blog-description">My thoughts on the future of front end web development</p>
-
-          <div class="card-profile">
-            <img class="profile-img"
-              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpYJQKSoM7S75P_KMRtQHqAAIPh133CSxByw&usqp=CAU'
-              alt=''>
-            <div class="card-profile-info">
-              <h3 class="profile-name">Eleanor Pea</h3>
-              <p class="profile-followers">5.2k followers</p>
-            </div>
-          </div> -->
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-banner">
-          <img class="banner-img" src='https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xna5h3bfbgmyrb6py1o7.jpg'
-            alt=''>
-        </div>
-        <div>
-          <p class="category-tag">Nandhaka Pieris</p>
-        </div>
-        <div class="card-body">
-          <h2 class="blog-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua.</h2>
-          <div class="album-details">
-            <img class="feature-content" src="@/assets/fillheart.png" />
-            <p class="album-date">2023/09/23</p>
-          </div>
-          <!-- <p class="blog-description">My thoughts on the future of front end web development</p>
-
-          <div class="card-profile">
-            <img class="profile-img"
-              src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpYJQKSoM7S75P_KMRtQHqAAIPh133CSxByw&usqp=CAU'
-              alt=''>
-            <div class="card-profile-info">
-              <h3 class="profile-name">Eleanor Pea</h3>
-              <p class="profile-followers">5.2k followers</p>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -120,14 +53,26 @@
 }
 
 .card {
+  flex-basis: calc(25.55%);
+  margin: 5px;
+  background-color: #ccc;
   overflow: hidden;
   background: white;
   border-radius: 0.5rem;
   position: relative;
-  width: 55vh;
   margin: 1rem;
   transition: 250ms all ease-in-out;
   cursor: pointer;
+}
+
+.logout-btn {
+  background-color: #ffffff;
+  color: #ff6c61;
+  border: none;
+  width: max-content;
+  border-radius: 3px;
+  padding: 10px 8%;
+  margin-top: 20px;
 }
 
 .banner-img {
@@ -208,8 +153,13 @@
 
 .album-div {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .profile-div {
@@ -292,3 +242,43 @@
   font-size: 0.9rem;
 }
 </style>
+
+<script>
+import axios from 'axios'
+export default {
+  name: 'ProfilePage',
+  inject: ['axios'],
+  albumData: [],
+  user: {},
+  created() {
+    this.getprofile();
+    this.getUser();
+  },
+  methods: {
+    getUser() {
+      this.user = JSON.parse(window.localStorage.getItem('userData'));
+    },
+    async getprofile() {
+      // Call the logout API endpoint
+      const res = await this.axios.get('http://localhost:8000/api/auth/getalbums?user=1')
+      if (res) {
+        this.albumData = res.data
+        console.log(this.albumData);
+      }
+    },
+    logout() {
+      // Call the logout API endpoint
+      this.axios.post('http://localhost:8000/api/auth/logout')
+        .then(() => {
+          // If the API call is successful, log the user out locally
+          window.localStorage.clear();
+          // Navigate to the login page or home page
+          this.$router.push('/login');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  },
+}
+</script>

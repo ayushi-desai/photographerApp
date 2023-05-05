@@ -54,15 +54,10 @@ export default {
                 });
                 console.log(res);
 
-                const { access_token, user } = res.data
-                window.localStorage.setItem('token', access_token)
-                window.localStorage.setItem('userData', JSON.stringify(user))
-                // const res2 = await this.axios.get(`http://127.0.0.1:8000/api/auth/login`, {
-                //     headers: {
-                //         Authorization: `Bearer ${jwt}`,
-                //     }
-                // })
-                this.$router.push('/')
+                const { access_token, userData } = res.data
+                window.localStorage.setItem('access_token', access_token)
+                window.localStorage.setItem('userData', JSON.stringify(userData))
+                this.$router.push('/profile')
             } catch (error) {
                 console.log(error.response)
                 if (error.response.status === 401) {
